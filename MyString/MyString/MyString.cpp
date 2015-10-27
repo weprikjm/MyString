@@ -102,13 +102,13 @@ int MyString::CalculateSize(const char* str)const
 
 
 
-bool MyString::operator==(MyString& _string)
+bool MyString::operator==(MyString& _string)const
 {
 	bool ret = false;
 	int size =_string.CalculateSize(_string.c_str());
 	if (size > 0)
 	{
-		size++; //Memory space for the 0 ending
+		
 		if (!strcmp(_string.c_str(),c_str()))
 		{
 			printf("Equals");
@@ -124,13 +124,13 @@ bool MyString::operator==(MyString& _string)
 	return ret;
 }
 
-bool MyString::operator!=(MyString& _string)
+bool MyString::operator!=(MyString& _string)const
 {
 	bool ret = false;
 	int size = _string.CalculateSize(_string.c_str());
 	if (size > 0)
 	{
-		size++; //Memory space for the 0 ending
+
 		if (strcmp(_string.c_str(), c_str()))
 		{
 			printf("Different");

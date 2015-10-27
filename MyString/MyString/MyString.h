@@ -11,8 +11,8 @@ public:
 	MyString(const MyString&);
 	~MyString();
 //Operators
-	bool operator==(MyString&);
-	bool operator!=(MyString&);
+	bool operator==(MyString&)const;
+	bool operator!=(MyString&)const;
 
 //Getters
 	const char* c_str()const;
