@@ -9,9 +9,6 @@ const char* MyString::c_str()const
 }
 
 
-
-
-
 MyString::MyString(uint _capacity)
 {
 	if (_capacity > 0)
@@ -86,13 +83,65 @@ MyString::~MyString()
 int MyString::CalculateSize(const char* str)const
 {
 	int size = 0;
-	const char* tmpStr = str;
 
-
-	for (; *tmpStr != '\0'; tmpStr++)
+	if (str != NULL)
 	{
-		size++;
-	}
+		
+		const char* tmpStr = str;
 
+	
+		for (; *tmpStr != '\0'; tmpStr++)
+		{
+			size++;
+		}
+	}
 	return size;
+}
+
+
+
+
+
+bool MyString::operator==(MyString& _string)
+{
+	bool ret = false;
+	int size =_string.CalculateSize(_string.c_str());
+	if (size > 0)
+	{
+		size++; //Memory space for the 0 ending
+		if (!strcmp(_string.c_str(),c_str()))
+		{
+			printf("Equals");
+			ret = true;
+		}
+		else
+		{
+			printf("Different");
+		}
+
+		
+	}
+	return ret;
+}
+
+bool MyString::operator!=(MyString& _string)
+{
+	bool ret = false;
+	int size = _string.CalculateSize(_string.c_str());
+	if (size > 0)
+	{
+		size++; //Memory space for the 0 ending
+		if (strcmp(_string.c_str(), c_str()))
+		{
+			printf("Different");
+			ret = true;
+		}
+		else
+		{
+			printf("Equals");
+		}
+
+		
+	}
+	return ret;
 }

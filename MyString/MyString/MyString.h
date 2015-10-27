@@ -10,6 +10,10 @@ public:
 	MyString(const char*);
 	MyString(const MyString&);
 	~MyString();
+//Operators
+	bool operator==(MyString&);
+	bool operator!=(MyString&);
+
 //Getters
 	const char* c_str()const;
 
