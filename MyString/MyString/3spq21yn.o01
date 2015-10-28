@@ -57,7 +57,7 @@ MyString::MyString(const MyString& _myString)
 	{
 		const char* s = _myString.c_str();
 
-		uint sizeB = CalculateSize(s);
+		int sizeB = CalculateSize(s);
 		sizeB++;						//We add one position for the 0 because it is not taken into account.
 
 		str = new char[sizeB];
@@ -124,32 +124,6 @@ bool MyString::operator==(const MyString& _string)const
 	return ret;
 }
 
-bool MyString::operator==(const char* str)const
-{
-	bool ret = false;
-	int size = strlen(str);
-	if (size > 0)
-	{
-
-		if (!strcmp(str, c_str()))
-		{
-			printf("Equals");
-			ret = true;
-		}
-		else
-		{
-			printf("Different");
-		}
-
-
-	}
-	return ret;
-}
-
-
-
-
-
 bool MyString::operator!=(const MyString& _string)const
 {
 	bool ret = false;
@@ -168,29 +142,6 @@ bool MyString::operator!=(const MyString& _string)const
 		}
 
 		
-	}
-	return ret;
-}
-
-
-bool MyString::operator!=(const char* str)const
-{
-	bool ret = false;
-	int size = CalculateSize(str);
-	if (size > 0)
-	{
-
-		if (strcmp(str, c_str()))
-		{
-			printf("Different");
-			ret = true;
-		}
-		else
-		{
-			printf("Equals");
-		}
-
-
 	}
 	return ret;
 }

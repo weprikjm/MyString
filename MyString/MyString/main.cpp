@@ -9,9 +9,11 @@ int main(int argc, char** argv)
 	MyString string2("hello");
 	MyString string3("hell");
 
-	if (string2 != string3)
+	if (string2 != string3){ }
 		
-	
+	if (string2 != "hello"){ }
+
+	if (string2 == "hello"){ }
 	
 	
 	printf("\n%s",string3.c_str());
