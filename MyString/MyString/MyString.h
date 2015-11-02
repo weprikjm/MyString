@@ -2,7 +2,7 @@
 #define __MYSTRING_H__
 
 #include <iostream>
-
+#define MEMORY_CHUNK 32
 typedef unsigned int uint;
 
 class MyString
@@ -23,19 +23,21 @@ public:
 	bool operator!=(const char* str)const;
 	const MyString& operator+=(const MyString& mStr);
 	const MyString& operator+=(const char* mStr);
-
-
-
+	const MyString& operator=(const MyString& mStr);
+	const MyString& operator=(const char* mStr);
 //Getters
 	const char* c_str()const;
 	const uint GetCapacity()const;
-public:
-	char* str = NULL;
+//Destruction
+	void Clear();
+
+	
 private:
 	int CalculateSize(const char*)const;
+	int GetChunkSizeNeeded(int size)const;
 private:
 	uint capacity = 0;
-	
+	char* str = NULL;
 
 };
 #endif

@@ -1,7 +1,12 @@
 #include "MyString.h"
 #include <iostream>
 
-MyString::MyString(){}
+MyString::MyString()
+{
+	str = '\0';
+	capacity = 1;
+
+}
 
 const char* MyString::c_str()const
 {
@@ -195,11 +200,12 @@ const MyString& MyString::operator+=(const MyString& mStr)
 
 		if (sizeToFill > GetCapacity())
 		{	
-			char* tmp = new char[sizeToFill];
-			memset(tmp,0,sizeToFill);
+		
+			int finalSize = GetChunkSizeNeeded(sizeToFill);
+
+			char* tmp = new char[finalSize];
 			strcpy_s(tmp, CalculateSize(str)+1,str);
-			//tmp[CalculateSize(str)] = '\0';
-			delete(str);
+			delete[] str;
 			strcat_s(tmp, sizeToFill, mStr.str);
 			str = tmp;
 
@@ -226,21 +232,25 @@ const MyString& MyString::operator+=(const char* mStr)
 	{
 		int sizeToFill = CalculateSize(str) + CalculateSize(mStr) + 1;
 
-
-
 		if (sizeToFill > GetCapacity())
 		{
-			char* tmp = new char[sizeToFill];
-			memset(tmp, 0, sizeToFill);
-			strcpy_s(tmp, CalculateSize(str) + 1, str);
-			delete(str);
-			strcat_s(tmp, sizeToFill, mStr);
-			str = tmp;
+			
+			int finalSize = GetChunkSizeNeeded(sizeToFill);
 
+			char* tmp = new char[finalSize];
+			memset(tmp, 0, finalSize);
+			strcpy_s(tmp, CalculateSize(str) + 1, str);
+			delete[] str;
+			
+			strcat_s(tmp, sizeToFill, mStr);
+			
+			str = tmp;
+			capacity = finalSize;
 		}
 		else
 		{
 			strcat_s(str, sizeToFill, mStr);
+			capacity = sizeToFill;
 		}
 	}
 	else
@@ -255,4 +265,67 @@ const MyString& MyString::operator+=(const char* mStr)
 const uint MyString::GetCapacity()const
 {
 	return capacity;
+}
+
+
+
+const MyString& MyString::operator=(const MyString& mStr)
+{
+	if (mStr.c_str() != NULL && this->c_str() != NULL)
+	{
+		int size = CalculateSize(mStr.c_str()) + 1;
+
+		if (size > GetCapacity())
+		{
+			delete[] str;
+
+			
+			int finalInt = GetChunkSizeNeeded(size);
+
+			str = new char[finalInt];
+			capacity = finalInt;
+			memset(str, 0, finalInt);
+			
+		}
+		strcpy_s(str, size, mStr.c_str());
+	}
+	return (*this);
+
+}
+
+const MyString& MyString::operator=(const char* mStr)
+{
+	if (mStr != NULL && this->c_str() != NULL)
+	{
+		int size = CalculateSize(mStr) + 1;
+
+		if (size > GetCapacity())
+		{
+			delete[] str;
+
+			int finalInt = GetChunkSizeNeeded(size);
+
+			str = new char[finalInt];
+			capacity = finalInt;
+			memset(str, 0, finalInt);
+		}
+
+		strcpy_s(str, size, mStr);
+		
+	}
+	return (*this);
+
+}
+
+int MyString::GetChunkSizeNeeded(int size)const
+{
+	int numChunksdiv = size / MEMORY_CHUNK;
+	int finalInt = ((numChunksdiv + 1) * MEMORY_CHUNK);
+
+	return finalInt;
+}
+
+void MyString::Clear()
+{
+	str[0] = '\0';
 }
