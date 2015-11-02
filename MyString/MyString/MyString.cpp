@@ -84,18 +84,7 @@ MyString::~MyString()
 
 int MyString::CalculateSize(const char* str)const
 {
-	int size = 0;
-
-	if (str != NULL)
-	{
-		const char* tmpStr = str;
-	
-		for (; *tmpStr != '\0'; tmpStr++)
-		{
-			size++;
-		}
-	}
-	return size;
+	return strlen(str);
 }
 
 
@@ -176,7 +165,7 @@ bool MyString::operator!=(const MyString& _string)const
 bool MyString::operator!=(const char* str)const
 {
 	bool ret = false;
-	int size = CalculateSize(str);
+	int size = CalculateSize(str) + 1;
 	if (size > 0)
 	{
 
@@ -193,4 +182,77 @@ bool MyString::operator!=(const char* str)const
 
 	}
 	return ret;
+}
+
+
+const MyString& MyString::operator+=(const MyString& mStr)
+{
+	if (mStr.c_str() != NULL && str != NULL)
+	{
+		int sizeToFill = CalculateSize(str) + CalculateSize(mStr.c_str()) + 1;
+
+		
+
+		if (sizeToFill > GetCapacity())
+		{	
+			char* tmp = new char[sizeToFill];
+			memset(tmp,0,sizeToFill);
+			strcpy_s(tmp, CalculateSize(str)+1,str);
+			//tmp[CalculateSize(str)] = '\0';
+			delete(str);
+			strcat_s(tmp, sizeToFill, mStr.str);
+			str = tmp;
+
+		}
+		else
+		{
+			strcat_s(str, CalculateSize(mStr.c_str()) + 1, mStr.c_str());
+		}
+	}
+	else
+	{
+		printf("Cannot Concatenate if any of the strings is null");
+	}
+	
+
+	return (*this);
+}
+
+
+const MyString& MyString::operator+=(const char* mStr)
+{
+	
+	if (mStr != NULL && str != NULL)
+	{
+		int sizeToFill = CalculateSize(str) + CalculateSize(mStr) + 1;
+
+
+
+		if (sizeToFill > GetCapacity())
+		{
+			char* tmp = new char[sizeToFill];
+			memset(tmp, 0, sizeToFill);
+			strcpy_s(tmp, CalculateSize(str) + 1, str);
+			delete(str);
+			strcat_s(tmp, sizeToFill, mStr);
+			str = tmp;
+
+		}
+		else
+		{
+			strcat_s(str, sizeToFill, mStr);
+		}
+	}
+	else
+	{
+		printf("Cannot Concatenate if any of the strings is null");
+	}
+
+
+	return (*this);
+}
+
+const uint MyString::GetCapacity()const
+{
+	return capacity;
 }
